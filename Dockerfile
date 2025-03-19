@@ -2,9 +2,17 @@ FROM alpine:latest as rclone
 
 LABEL org.opencontainers.image.source=https://github.com/torncity/restic-backup-docker
 
+# Get curl
+RUN apk --no-cache add curl
+
 # Get rclone executable
 ADD https://downloads.rclone.org/rclone-current-linux-amd64.zip /
 RUN unzip rclone-current-linux-amd64.zip && mv rclone-*-linux-amd64/rclone /bin/rclone && chmod +x /bin/rclone
+
+# Get AWS cli executable
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+	&& unzip awscliv2.zip \
+	&& ./aws/install
 
 FROM restic/restic:0.16.0
 
