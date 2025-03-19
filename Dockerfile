@@ -16,7 +16,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 
 FROM restic/restic:0.16.0
 
-RUN apk add --update --no-cache curl mailx mysql-client
+RUN apk add --update --no-cache curl mailx mysql-client mariadb-connector-c-dev
 
 COPY --from=rclone /bin/rclone /bin/rclone
 
