@@ -1,12 +1,14 @@
 FROM alpine:latest as rclone
 
+LABEL org.opencontainers.image.source=https://github.com/torncity/restic-backup-docker
+
 # Get rclone executable
 ADD https://downloads.rclone.org/rclone-current-linux-amd64.zip /
 RUN unzip rclone-current-linux-amd64.zip && mv rclone-*-linux-amd64/rclone /bin/rclone && chmod +x /bin/rclone
 
 FROM restic/restic:0.16.0
 
-RUN apk add --update --no-cache curl mailx
+RUN apk add --update --no-cache curl mailx mysql-client
 
 COPY --from=rclone /bin/rclone /bin/rclone
 
@@ -35,6 +37,8 @@ ENV OS_PASSWORD=""
 ENV OS_REGION_NAME=""
 ENV OS_INTERFACE=""
 ENV OS_IDENTITY_API_VERSION=3
+ENV RESTIC_PRE_BACKUP=""
+ENV RESTIC_POST_BACKUP=""
 
 # openshift fix
 RUN mkdir /.cache && \
