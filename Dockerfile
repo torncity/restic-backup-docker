@@ -9,12 +9,9 @@ RUN apk --no-cache add curl
 ADD https://downloads.rclone.org/rclone-current-linux-amd64.zip /
 RUN unzip rclone-current-linux-amd64.zip && mv rclone-*-linux-amd64/rclone /bin/rclone && chmod +x /bin/rclone
 
-# Get AWS cli executable
-RUN apk add --no-cache aws-cli
-
 FROM restic/restic:0.16.0
 
-RUN apk add --update --no-cache curl mailx mysql-client mariadb-connector-c-dev
+RUN apk add --update --no-cache curl mailx mysql-client mariadb-connector-c-dev aws-cli
 
 COPY --from=rclone /bin/rclone /bin/rclone
 
