@@ -10,9 +10,7 @@ ADD https://downloads.rclone.org/rclone-current-linux-amd64.zip /
 RUN unzip rclone-current-linux-amd64.zip && mv rclone-*-linux-amd64/rclone /bin/rclone && chmod +x /bin/rclone
 
 # Get AWS cli executable
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
-	&& unzip awscliv2.zip \
-	&& ./aws/install
+RUN apk add --no-cache aws-cli
 
 FROM restic/restic:0.16.0
 
